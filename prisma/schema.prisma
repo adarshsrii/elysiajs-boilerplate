@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Configuration {
+  id              Int      @id @default(autoincrement())
+  auto_update_app Boolean  @default(true)
+  created_at      DateTime @default(now()) @db.Timestamp(0)
+  updated_at      DateTime @default(now()) @db.Timestamp(0)
+}
+
+model User {
+  id                 Int      @id @default(autoincrement())
+  full_name          String   @default("")
+  email              String   @default("")
+  username           String   @unique
+  password           String
+  time_zone          String   @default("UTC")
+  remember_token     Boolean  @default(false)
+  verified           Boolean  @default(false)
+  send_notifications Boolean  @default(true)
+  login_type         String   @default("mobile")
+  created_at         DateTime @default(now()) @db.Timestamp(0)
+  updated_at         DateTime @updatedAt
+  referer            String   @default("")
+}
